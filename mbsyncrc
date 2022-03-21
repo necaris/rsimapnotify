@@ -1,0 +1,108 @@
+
+# # CONNECTIONS SPECIFY LINKS BETWEEN REMOTE AND LOCAL FOLDERS
+# #
+# # CONNECTIONS ARE SPECIFIED USING PATTERNS, WHICH MATCH REMOTE MAIl
+# # FOLDERS. SOME COMMONLY USED PATTERS INCLUDE:
+# #
+# # 1 "*" TO MATCH EVERYTHING
+# # 2 "!DIR" TO EXCLUDE "DIR"
+# # 3 "DIR" TO MATCH DIR
+
+# Channel gmail-inbox
+# Master :gmail-remote:
+# Slave :gmail-local:
+# Patterns "INBOX"
+# Create Both
+# Expunge Both
+# SyncState *
+
+# # GROUPS PUT TOGETHER CHANNELS, SO THAT WE CAN INVOKE
+# # MBSYNC ON A GROUP TO SYNC ALL CHANNELS
+# #
+# # FOR INSTANCE: "mbsync gmail" GETS MAIL FROM
+# # "gmail-inbox", "gmail-sent", and "gmail-trash"
+# #
+# Group gmail
+# Channel gmail-inbox
+# Channel gmail-sent
+# Channel gmail-trash
+# Channel gmail-all
+# Channel gmail-starred
+#
+# THEN WE SPECIFY THE LOCAL AND REMOTE STORAGE
+# - THE REMOTE STORAGE IS WHERE WE GET THE MAIL FROM (E.G., THE
+#   SPECIFICATION OF AN IMAP ACCOUNT)
+# - THE LOCAL STORAGE IS WHERE WE STORE THE EMAIL ON OUR COMPUTER
+
+# Work mailbox
+IMAPStore coiled-remote
+Host imap.gmail.com
+SSLType IMAPS
+AuthMechs LOGIN
+User rchowdhury@coiled.io
+PassCmd "pass coiled/rchowdhury@coiled.io"
+
+MaildirStore coiled-local
+Flatten .
+Path ~/.mail/coiled/
+Inbox ~/.mail/coiled/INBOX
+# Subfolders Verbatim
+
+Channel coiled
+Far :coiled-remote:
+Near :coiled-local:
+Create Both
+Expunge Both
+Patterns "INBOX" "[Gmail]/*" !"[Gmail]/Important" !"[Gmail]/Starred" !"[Gmail]/Trash"
+# !"[Gmail]/All Mail"
+SyncState *
+
+
+# Secondary mailbox
+IMAPStore secondary-remote
+Host imap.gmail.com
+SSLType IMAPS
+AuthMechs LOGIN
+User necaris@gmail.com
+PassCmd "pass personal/necaris@gmail.com"
+
+MaildirStore secondary-local
+Flatten .
+Path ~/.mail/necaris/
+Inbox ~/.mail/necaris/INBOX
+# Subfolders Verbatim
+
+Channel secondary
+Far :secondary-remote:
+Near :secondary-local:
+Create Both
+Expunge Both
+Patterns "INBOX" "[Gmail]/*" !"[Gmail]/Important" !"[Gmail]/Starred" !"[Gmail]/Trash"
+# !"[Gmail]/All Mail"
+SyncState *
+
+
+
+# Primary mailbox
+IMAPStore primary-remote
+Host imap.gmail.com
+SSLType IMAPS
+AuthMechs LOGIN
+User rami.chowdhury@gmail.com
+PassCmd "pass personal/rami.chowdhury@gmail.com"
+
+MaildirStore primary-local
+Flatten .
+Path ~/.mail/rami.chowdhury/
+Inbox ~/.mail/rami.chowdhury/INBOX
+# Subfolders Verbatim
+
+Channel primary
+Far :primary-remote:
+Near :primary-local:
+Create Both
+Expunge Both
+Patterns "INBOX" "[Gmail]/*" !"[Gmail]/Important" !"[Gmail]/Starred" !"[Gmail]/Trash"
+# !"[Gmail]/All Mail"
+SyncState *
+
