@@ -72,8 +72,23 @@ fn store_imap(stanza: &str) -> nom::IResult<&str, IMAPStore> {
 
 mod test {
     use crate::config::{AuthMech, CmdField, SSLType};
+    use std::env;
+    use std::fs;
+    use std::path::PathBuf;
 
     use super::*;
+
+    #[test]
+    fn test_from_mbsync() {
+        let root_dir = &env::var("CARGO_MANIFEST_DIR").expect("$CARGO_MANIFEST_DIR");
+        let sample_path = PathBuf::from(root_dir)
+            .join("tests")
+            .join("fixtures")
+            .join("mbsyncrc");
+        let contents = fs::read_to_string(sample_path).unwrap();
+        let parsed = from_mbsync(contents);
+        assert_eq!(parsed.is_err(), true);
+    }
 
     #[test]
     fn test_parse_host() {
