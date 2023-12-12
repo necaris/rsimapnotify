@@ -1,0 +1,14 @@
+* =rsimapnotify=
+
+Like =goimapnotify=, but in Rust. And with some more capabilities. But otherwise mostly the same[fn:1].
+
+* TBD [0/1]
+** TODO Parse =goimapnotify= config
+** TODO Implement actions that =goimapnotify= does
+** TODO Add our own config options above and beyond
+** TODO Parse =mbsync= configuration so there's even fewer config files
+** TODO Optimizations
+
+* Footnotes
+
+[fn:1] Mostly a learning exercise for me. If it turns out to be useful to others, that would be delightful!
